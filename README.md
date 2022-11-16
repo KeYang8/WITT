@@ -17,7 +17,7 @@ We show the examples of visual comparison under AWGN channel at SNR = 10dB. More
 * we employ the BPG codec for compression combined with 5G LDPC codes for channel coding (marked as “BPG + LDPC”). Here, we considered 5G LDPC codes with a block length of 6144 bits for different coding rates and quadrature amplitude modulations (QAM). 
 * the ideal capacity-achieving channel code is also considered during evaluation (marked as “BPG + Capacity”).
 
-![ ](./results/visual comparison result.png)
+![ ](./results/visual_comparison_result.png)
 
 # Installation
 WITT supports python 3.8+ and PyTorch 1.9+
