@@ -8,6 +8,7 @@ import torch
 from datetime import datetime
 import torch.nn as nn
 import argparse
+from loss.distortion import *
 
 parser = argparse.ArgumentParser(description='WITT')
 parser.add_argument('--training', type=str, default='True',
