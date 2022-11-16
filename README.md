@@ -12,11 +12,38 @@ In this paper, we aim to redesign the vision Transformer (ViT) as a new backbone
 Fig. 1. (a) The overall architecture of the proposed WITT scheme for wireless image transmission. (b) Two successive Swin Transformer Blocks. W-MSA and SW-MAS are multi-head self attention modules with regular and shifted windowing configurations, respectively.
 
 ## Experimental results
+We show the examples of visual comparison under AWGN channel at SNR = 10dB. More experimental results show in [results](./results).
 
+* we employ the BPG codec for compression combined with 5G LDPC codes for channel coding (marked as “BPG + LDPC”). Here, we considered 5G LDPC codes with a block length of 6144 bits for different coding rates and quadrature amplitude modulations (QAM). 
+* the ideal capacity-achieving channel code is also considered during evaluation (marked as “BPG + Capacity”).
+
+![ ](./results/visual comparison result.png)
 
 # Installation
 WITT supports python 3.8+ and PyTorch 1.9+
 
 # Usage
 
+## Train
+
+* cbr = C/(2^(2i)*3*2), i denotes the downsample number. For CIFAR10, i=2; for HR_image, i=4.
+```
+python train.py --training {True/False} --trainset {HR_image/CIFAR10} --testset {kodak/CLIC21/CIFAR10} -- distortion_metric {MSE/MS-SSIM} --pretrain {True/False} --channel_type {awgn/rayleigh} --C {8/16/24/32/48/64/96/128/192}
+```
+```
+e.g.
+python train.py --training True --trainset HR_image --testset kodak -- distortion_metric MSE --pretrain True --channel_type awgn --C 96
+```
+You can apply our method on your own images.
+
+## Test
+All pretrain models can be found in this link [] and google drive link [].
+
+```
+python train.py --training {True/False} --trainset {HR_image/CIFAR10} --testset {kodak/CLIC21/CIFAR10} -- distortion_metric {MSE/MS-SSIM} --pretrain {True/False} --channel_type {awgn/rayleigh} --C {8/16/24/32/48/64/96/128/192}
+```
+```
+e.g.
+python train.py --training False --trainset HR_image --testset kodak -- distortion_metric MSE --pretrain False --channel_type awgn --C 96
+```
 
