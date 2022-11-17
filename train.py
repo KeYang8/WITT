@@ -40,7 +40,7 @@ class config():
     pass_channel = True
     CUDA = True
     device = torch.device("cuda:0")
-    norm = False  # 计算MSE LOSS 的时候是否重新归一化
+    norm = False 
     # logger
     print_step = 100
     plot_step = 10000
