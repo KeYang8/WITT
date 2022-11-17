@@ -32,7 +32,7 @@ parser.add_argument('--channel-type', type=str, default='awgn',
 parser.add_argument('--C', type=int, default=96,
                     help='bottleneck dimension')
 parser.add_argument('--multiple-snr', type=int, default=[1, 4, 7, 10, 13],
-                    help='random or fix snr')
+                    help='random or fixed snr')
 args = parser.parse_args()
 
 class config():
@@ -78,14 +78,7 @@ class config():
     elif args.trainset == 'DIV2K':
         save_model_freq = 100
         image_dims = (3, 256, 256)
-        # train_data_dir = ["/media/Dataset/HR_Image_dataset/"]
-        base_path = "/media/Dataset/HR_Image_dataset/"
-        train_data_dir = [base_path + '/clic2020/**',
-                          base_path + '/clic2021/train',
-                          base_path + '/clic2021/valid',
-                          base_path + '/clic2022/val',
-                          base_path + '/DIV2K_train_HR',
-                          base_path + '/DIV2K_valid_HR']
+        train_data_dir = ["/media/Dataset/HR_Image_dataset/"]
         if args.testset == 'kodak':
             test_data_dir = ["/media/Dataset/kodak_test/"]
         elif args.testset == 'CLIC21':
@@ -286,7 +279,7 @@ if __name__ == '__main__':
     logger.info(config.__dict__)
     torch.manual_seed(seed=config.seed)
     net = WITT(args, config)
-    model_path = "/media/D/yangke/TransJSCC/checkpoints/SNR-PSNR/pretrained_AWGN_HRimage_snr10_psnr_C.model"
+    model_path = "./model/WITT_AWGN_DIV2K_snr10_psnr_C96.model"
     load_weights(model_path)
     net = net.cuda()
     model_params = [{'params': net.parameters(), 'lr': 0.0001}]
