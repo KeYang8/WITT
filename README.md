@@ -12,8 +12,8 @@ In this paper, we aim to redesign the vision Transformer (ViT) as a new backbone
 
 * we employ the BPG codec for compression combined with 5G LDPC codes for channel coding (marked as “BPG + LDPC”). Here, we considered 5G LDPC codes with a block length of 6144 bits for different coding rates and quadrature amplitude modulations (QAM). 
 * the ideal capacity-achieving channel code is also considered during evaluation (marked as “BPG + Capacity”).
-* We show the examples of visual comparison under AWGN channel at SNR = 10dB. More experimental results show in [results](./results).
 ![ ](./results/visual_comparison_result.png)
+>  We show the examples of visual comparison under AWGN channel at SNR = 10dB. More experimental results show in [results](./results).
 
 # Installation
 We implement WITT under python 3.8 and PyTorch 1.9. 
