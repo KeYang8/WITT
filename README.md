@@ -88,6 +88,7 @@ The implementation is based on [Swin Transformer](https://github.com/microsoft/S
 
 # Related links
 * BPG image format by _Fabrice Bellard_: https://bellard.org/bpg
+* Sionna An Open-Source Library for Next-Generation Physical Layer Research: https://github.com/NVlabs/sionna
 * DIV2K image dataset: https://data.vision.ee.ethz.ch/cvl/DIV2K/
 * Kodak image dataset: http://r0k.us/graphics/kodak/
 * CLIC image dataset:  http://compression.cc
