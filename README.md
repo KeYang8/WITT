@@ -23,33 +23,65 @@ We show the examples of visual comparison under AWGN channel at SNR = 10dB. More
 WITT supports python 3.8+ and PyTorch 1.9+
 
 
-# Acknowledgement
-The implementation is based on [Swin Transformer](https://arxiv.org/abs/2103.14030v1?ref=hackernoon.com), [Kodak](http://r0k.us/graphics/kodak/) and [CLIC21](http://compression.cc)
-
 # Usage
 
 ## Train
 
 * cbr = C/(2^(2i)*3*2), i denotes the downsample number. For CIFAR10, i=2; for HR_image, i=4.
-* Pretrained model has no Channel ModNet module, is trained on a fixed channel state (SNR).
+* WITT_W/O model is the WITT model without Channel ModNet module which is trained on a fixed channel state (SNR).
+* 'multiple-snr' decides use either fixed or random SNR to train the model. For WITT_W/O model, 'multiple-snr' is set as a fixed SNR. For WITT model, 'muliple-snr' can be set as both fixed or random SNR.
+* For high-resolution images, we can firstly train the WITT_W/O model. Then, the WITT_W/O model is used as a pre-training model to train the whole WITT model.
+```
+python train.py --training --trainset {CIFAR10/DIV2K} --testset {CIFAR10/kodak/CLIC21} -- distortion-metric {MSE/MS-SSIM} --model {'WITT'/'WITT_W/O'} --channel-type {awgn/rayleigh} --C {bottleneck dimension} --multiple-snr {random or fixed snr}
+```
+
+### For WITT model 
+
+*e.g. cbr = 0.0625, snr = [1, 4, 7, 10, 13], metric = PSNR, channel = AWGN
 
 ```
-python train.py --training True --trainset {HR_image/CIFAR10} --testset {kodak/CLIC21/CIFAR10} -- distortion_metric {MSE/MS-SSIM} --pretrain {True/False} --channel_type {awgn/rayleigh} --C {8/16/24/32/48/64/96/128/192}
+e.g.
+python train.py --training --trainset DIV2K --testset kodak -- distortion_metric MSE --model WITT --channel_type awgn --C 96 -- multiple-snr [1, 4, 7, 10, 13]
 ```
+
+You can apply our method on your own images.
+
+### For WITT_W/O model 
+
+*e.g. cbr = 0.0625, snr = [1], metric = PSNR, channel = AWGN
+
 ```
 e.g.
-python train.py --training True --trainset HR_image --testset kodak -- distortion_metric MSE --pretrain True --channel_type awgn --C 96
+python train.py --training --trainset DIV2K --testset kodak -- distortion_metric MSE --model WITT_W/O --channel_type awgn --C 96 -- multiple-snr 1
 ```
-You can apply our method on your own images.
+
 
 ## Test
 All pretrain models can be found in this link [WITT model](https://pan.baidu.com/s/1X8gg7MKSZt-eDD4liALayw (passward:zujr)) and google drive link [WITT model](https://drive.google.com/drive/folders/1YdnShbfIT03p_e30vjkV2wPKYOQPmUWp?usp=sharing).
 
 ```
-python train.py --training False --trainset {HR_image/CIFAR10} --testset {kodak/CLIC21/CIFAR10} -- distortion_metric {MSE/MS-SSIM} --pretrain {True/False} --channel_type {awgn/rayleigh} --C {8/16/24/32/48/64/96/128/192}
-```
-```
-e.g.
-python train.py --training False --trainset HR_image --testset kodak -- distortion_metric MSE --pretrain False --channel_type awgn --C 96
+python train.py --trainset {CIFAR10/DIV2K} --testset {CIFAR10/kodak/CLIC21} -- distortion-metric {MSE/MS-SSIM} --model {'WITT'/'WITT_W/O'} --channel-type {awgn/rayleigh} --C {bottleneck dimension} --multiple-snr {random or fixed snr}
 ```
 
+### For WITT model 
+
+*e.g. cbr = 0.0625, snr = [1, 4, 7, 10, 13], metric = PSNR, channel = AWGN
+
+```
+e.g.
+python train.py --trainset DIV2K --testset kodak -- distortion_metric MSE --model WITT --channel_type awgn --C 96 -- multiple-snr [1, 4, 7, 10, 13]
+```
+
+You can apply our method on your own images.
+
+### For WITT_W/O model 
+
+*e.g. cbr = 0.0625, snr = [1], metric = PSNR, channel = AWGN
+
+```
+e.g.
+python train.py --trainset DIV2K --testset kodak -- distortion_metric MSE --model WITT_W/O --channel_type awgn --C 96 -- multiple-snr 1
+```
+
+# Acknowledgement
+The implementation is based on [Swin Transformer](https://github.com/microsoft/Swin-Transformer), [Kodak](http://r0k.us/graphics/kodak/) and [CLIC21](http://compression.cc)
