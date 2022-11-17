@@ -31,7 +31,7 @@ parser.add_argument('--channel-type', type=str, default='awgn',
                     help='wireless channel model, awgn or rayleigh')
 parser.add_argument('--C', type=int, default=96,
                     help='bottleneck dimension')
-parser.add_argument('--multiple-snr', type=int, default=[1, 4, 7, 10, 13],
+parser.add_argument('--multiple-snr', type=str, default='1,4,7,10,13',
                     help='random or fixed snr')
 args = parser.parse_args()
 
@@ -40,7 +40,7 @@ class config():
     pass_channel = True
     CUDA = True
     device = torch.device("cuda:0")
-    norm = False 
+    norm = False
     # logger
     print_step = 100
     plot_step = 10000
@@ -78,7 +78,14 @@ class config():
     elif args.trainset == 'DIV2K':
         save_model_freq = 100
         image_dims = (3, 256, 256)
-        train_data_dir = ["/media/Dataset/HR_Image_dataset/"]
+        # train_data_dir = ["/media/Dataset/HR_Image_dataset/"]
+        base_path = "/media/Dataset/HR_Image_dataset/"
+        train_data_dir = [base_path + '/clic2020/**',
+                          base_path + '/clic2021/train',
+                          base_path + '/clic2021/valid',
+                          base_path + '/clic2022/val',
+                          base_path + '/DIV2K_train_HR',
+                          base_path + '/DIV2K_valid_HR']
         if args.testset == 'kodak':
             test_data_dir = ["/media/Dataset/kodak_test/"]
         elif args.testset == 'CLIC21':
@@ -202,11 +209,14 @@ def test():
     net.eval()
     elapsed, psnrs, msssims, snrs, cbrs = [AverageMeter() for _ in range(5)]
     metrics = [elapsed, psnrs, msssims, snrs, cbrs]
-    results_snr = np.zeros(len(config.multiple_snr))
-    results_cbr = np.zeros(len(config.multiple_snr))
-    results_psnr = np.zeros(len(config.multiple_snr))
-    results_msssim = np.zeros(len(config.multiple_snr))
-    for i, SNR in enumerate(config.multiple_snr):
+    multiple_snr = args.multiple_snr.split(",")
+    for i in range(len(multiple_snr)):
+        multiple_snr[i] = int(multiple_snr[i])
+    results_snr = np.zeros(len(multiple_snr))
+    results_cbr = np.zeros(len(multiple_snr))
+    results_psnr = np.zeros(len(multiple_snr))
+    results_msssim = np.zeros(len(multiple_snr))
+    for i, SNR in enumerate(multiple_snr):
         with torch.no_grad():
             if args.trainset == 'CIFAR10':
                 for batch_idx, (input, label) in enumerate(test_loader):
@@ -279,7 +289,7 @@ if __name__ == '__main__':
     logger.info(config.__dict__)
     torch.manual_seed(seed=config.seed)
     net = WITT(args, config)
-    model_path = "./model/WITT_AWGN_DIV2K_snr10_psnr_C96.model"
+    model_path = "/media/D/yangke/TransJSCC/checkpoints/SNR-PSNR/pretrained_AWGN_HRimage_snr10_psnr_C.model"
     load_weights(model_path)
     net = net.cuda()
     model_params = [{'params': net.parameters(), 'lr': 0.0001}]
