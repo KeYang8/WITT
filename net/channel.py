@@ -20,7 +20,7 @@ class Channel(nn.Module):
                             + torch.randn(1) ** 2) / 1.414
         if config.logger:
             config.logger.info('【Channel】: Built {} channel, SNR {} dB.'.format(
-                args.channel_type, config.multiple_snr))
+                args.channel_type, args.multiple_snr))
 
     def gaussian_noise_layer(self, input_layer, std, name=None):
         device = input_layer.get_device()
@@ -60,13 +60,19 @@ class Channel(nn.Module):
         channel_output = self.complex_forward(channel_in, chan_param)
         channel_output = torch.cat([torch.real(channel_output), torch.imag(channel_output)])
         channel_output = channel_output.reshape(input_shape)
-        noise = (channel_output - channel_tx).detach()
-        noise.requires_grad = False
-        channel_tx = channel_tx + noise
-        if avg_pwr:
-            return channel_tx * torch.sqrt(avg_pwr * 2)
-        else:
-            return channel_tx * torch.sqrt(pwr)
+        if self.chan_type == 1 or self.chan_type == 'awgn':
+            noise = (channel_output - channel_tx).detach()
+            noise.requires_grad = False
+            channel_tx = channel_tx + noise
+            if avg_pwr:
+                return channel_tx * torch.sqrt(avg_pwr * 2)
+            else:
+                return channel_tx * torch.sqrt(pwr)
+        elif self.chan_type == 2 or self.chan_type == 'rayleigh':
+            if avg_pwr:
+                return channel_output * torch.sqrt(avg_pwr * 2)
+            else:
+                return channel_output * torch.sqrt(pwr)
 
     def complex_forward(self, channel_in, chan_param):
         if self.chan_type == 0 or self.chan_type == 'none':

@@ -86,7 +86,7 @@ class CIFAR10(Dataset):
 
 
 def get_loader(args, config):
-    if args.trainset == 'HR_image':
+    if args.trainset == 'DIV2K':
         train_dataset = HR_image(config, config.train_data_dir)
         test_dataset = Datasets(config.test_data_dir)
     elif args.trainset == 'CIFAR10':

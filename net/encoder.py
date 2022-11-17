@@ -205,7 +205,7 @@ class AdaptiveModulator(nn.Module):
     def forward(self, snr):
         return self.fc(snr)
 
-class JSCCEncoder(nn.Module):
+class WITT_Encoder(nn.Module):
     def __init__(self, img_size, patch_size, in_chans,
                  embed_dims, depths, num_heads, C,
                  window_size=4, mlp_ratio=4., qkv_bias=True, qk_scale=None,
@@ -257,7 +257,7 @@ class JSCCEncoder(nn.Module):
         self.head_list = nn.Linear(embed_dims[-1], C)
         self.apply(self._init_weights)
 
-    def forward(self, x, snr, pretrain):
+    def forward(self, x, snr, model):
         B, C, H, W = x.size()
         device = x.get_device()
         x = self.patch_embed(x)
@@ -265,7 +265,7 @@ class JSCCEncoder(nn.Module):
             x = layer(x)
         x = self.norm(x)
 
-        if pretrain == 'False':
+        if model == 'WITT':
             snr_cuda = torch.tensor(snr, dtype=torch.float).to(device)
             snr_batch = snr_cuda.unsqueeze(0).expand(B, -1)
             for i in range(self.layer_num):
@@ -315,7 +315,7 @@ class JSCCEncoder(nn.Module):
 
 
 def create_encoder(**kwargs):
-    model = JSCCEncoder(**kwargs)
+    model = WITT_Encoder(**kwargs)
     return model
 
 

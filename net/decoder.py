@@ -60,7 +60,7 @@ class BasicLayer(nn.Module):
             self.upsample.input_resolution = (H, W)
 
 
-class JSCCDecoder(nn.Module):
+class WITT_Decoder(nn.Module):
     def __init__(self, img_size, embed_dims, depths, num_heads, C,
                  window_size=4, mlp_ratio=4., qkv_bias=True, qk_scale=None,
                  norm_layer=nn.LayerNorm, ape=False, patch_norm=True,
@@ -113,12 +113,12 @@ class JSCCDecoder(nn.Module):
             self.sm_list.append(nn.Linear(self.hidden_dim, outdim))
         self.sigmoid = nn.Sigmoid()
 
-    def forward(self, x, snr, pretrain):
+    def forward(self, x, snr, model):
         B, L, C = x.size()
         device = x.get_device()
         x = self.head_list(x)
 
-        if pretrain == 'False':
+        if model == 'WITT':
             # token modulation according to input snr value
             snr_cuda = torch.tensor(snr, dtype=torch.float).to(device)
             snr_batch = snr_cuda.unsqueeze(0).expand(B, -1)
@@ -172,7 +172,7 @@ class JSCCDecoder(nn.Module):
 
 
 def create_decoder(**kwargs):
-    model = JSCCDecoder(**kwargs)
+    model = WITT_Decoder(**kwargs)
     return model
 
 

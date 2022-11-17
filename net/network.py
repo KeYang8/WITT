@@ -1,6 +1,3 @@
-from torchvision import transforms
-# from net.decoder import *
-# from net.encoder import *
 from net.decoder import *
 from net.encoder import *
 from loss.distortion import Distortion
@@ -28,9 +25,11 @@ class WITT(nn.Module):
         self.pass_channel = config.pass_channel
         self.squared_difference = torch.nn.MSELoss(reduction='none')
         self.H = self.W = 0
-        self.multiple_snr = config.multiple_snr
+        self.multiple_snr = args.multiple_snr
+        if type(self.multiple_snr) == int:
+            self.multiple_snr = [self.multiple_snr]
         self.downsample = config.downsample
-        self.pretrain = args.pretrain
+        self.model = args.model
 
     def distortion_loss_wrapper(self, x_gen, x_real):
         distortion_loss = self.distortion_loss.forward(x_gen, x_real, normalization=self.config.norm)
@@ -55,7 +54,7 @@ class WITT(nn.Module):
         else:
             chan_param = given_SNR
 
-        feature = self.encoder(input_image, chan_param, self.pretrain)
+        feature = self.encoder(input_image, chan_param, self.model)
 
 
         CBR = feature.numel() / 2 / input_image.numel()
@@ -65,7 +64,7 @@ class WITT(nn.Module):
         else:
             noisy_feature = feature
 
-        recon_image = self.decoder(noisy_feature, chan_param, self.pretrain)
+        recon_image = self.decoder(noisy_feature, chan_param, self.model)
         mse = self.squared_difference(input_image * 255., recon_image.clamp(0., 1.) * 255.)
         loss_G = self.distortion_loss.forward(input_image, recon_image.clamp(0., 1.))
         return recon_image, CBR, chan_param, mse.mean(), loss_G.mean()
