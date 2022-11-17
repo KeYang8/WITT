@@ -25,9 +25,9 @@ class WITT(nn.Module):
         self.pass_channel = config.pass_channel
         self.squared_difference = torch.nn.MSELoss(reduction='none')
         self.H = self.W = 0
-        self.multiple_snr = args.multiple_snr
-        if type(self.multiple_snr) == int:
-            self.multiple_snr = [self.multiple_snr]
+        self.multiple_snr = args.multiple_snr.split(",")
+        for i in range(len(self.multiple_snr)):
+            self.multiple_snr[i] = int(self.multiple_snr[i])
         self.downsample = config.downsample
         self.model = args.model
 
