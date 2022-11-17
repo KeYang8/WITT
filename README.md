@@ -6,7 +6,7 @@ WITT: A Wireless Image Transmission Transformer For Semantic Communications
 # Proposed model
 
 ## Introduction
-In this paper, we aim to redesign the vision Transformer (ViT) as a new backbone to realize semantic image transmission, termed wireless image transmission transformer (WITT). Previous works build upon convolutional neural networks (CNNs), which are inefficient in capturing global dependencies, resulting in degraded end-to-end transmission performance especially for high-resolution images. To tackle this, the proposed WITT employs Swin Transformers as a more capable backbone to extract long-range information. Different from ViTs in image classification tasks, WITT is highly optimized for image transmission while considering the effect of the wireless channel. Specifically, we propose a spatial modulation module to scale the latent representations according to channel state information, which enhances the ability of a single model to deal with various channel conditions. As a result, extensive experiments verify that our WITT attains better performance for different image resolutions, distortion metrics, and channel conditions. All pretrain models can be found in this link [WITT model](https://pan.baidu.com/s/13_Lb8wFVio9PFU4jiySrhA (password:hxzo)) and google drive link [WITT model](https://drive.google.com/drive/folders/1YdnShbfIT03p_e30vjkV2wPKYOQPmUWp?usp=share_link).
+In this paper, we aim to redesign the vision Transformer (ViT) as a new backbone to realize semantic image transmission, termed wireless image transmission transformer (WITT). Previous works build upon convolutional neural networks (CNNs), which are inefficient in capturing global dependencies, resulting in degraded end-to-end transmission performance especially for high-resolution images. To tackle this, the proposed WITT employs Swin Transformers as a more capable backbone to extract long-range information. Different from ViTs in image classification tasks, WITT is highly optimized for image transmission while considering the effect of the wireless channel. Specifically, we propose a spatial modulation module to scale the latent representations according to channel state information, which enhances the ability of a single model to deal with various channel conditions. As a result, extensive experiments verify that our WITT attains better performance for different image resolutions, distortion metrics, and channel conditions. All pretrain models can be found in [baidu netdisk](https://pan.baidu.com/s/13_Lb8wFVio9PFU4jiySrhA (password:hxzo)) or [google drive](https://drive.google.com/drive/folders/1YdnShbfIT03p_e30vjkV2wPKYOQPmUWp?usp=share_link).
 
 ![ ](overview.png)
 Fig. 1. The overall architecture of the proposed WITT scheme for wireless image transmission.
@@ -84,4 +84,10 @@ python train.py --trainset DIV2K --testset kodak -- distortion_metric MSE --mode
 ```
 
 # Acknowledgement
-The implementation is based on [Swin Transformer](https://github.com/microsoft/Swin-Transformer), [Kodak](http://r0k.us/graphics/kodak/) and [CLIC21](http://compression.cc)
+The implementation is based on [Swin Transformer](https://github.com/microsoft/Swin-Transformer).
+
+# Related links
+* BPG image format by _Fabrice Bellard_: https://bellard.org/bpg
+* DIV2K image dataset: https://data.vision.ee.ethz.ch/cvl/DIV2K/
+* Kodak image dataset: http://r0k.us/graphics/kodak/
+* CLIC image dataset:  http://compression.cc
