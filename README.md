@@ -9,7 +9,7 @@ WITT: A Wireless Image Transmission Transformer For Semantic Communications
 In this paper, we aim to redesign the vision Transformer (ViT) as a new backbone to realize semantic image transmission, termed wireless image transmission transformer (WITT). Previous works build upon convolutional neural networks (CNNs), which are inefficient in capturing global dependencies, resulting in degraded end-to-end transmission performance especially for high-resolution images. To tackle this, the proposed WITT employs Swin Transformers as a more capable backbone to extract long-range information. Different from ViTs in image classification tasks, WITT is highly optimized for image transmission while considering the effect of the wireless channel. Specifically, we propose a spatial modulation module to scale the latent representations according to channel state information, which enhances the ability of a single model to deal with various channel conditions. As a result, extensive experiments verify that our WITT attains better performance for different image resolutions, distortion metrics, and channel conditions. All pretrain models can be found in this link [WITT model](https://pan.baidu.com/s/1X8gg7MKSZt-eDD4liALayw (passward:zujr)) and google drive link [WITT model](https://drive.google.com/drive/folders/1YdnShbfIT03p_e30vjkV2wPKYOQPmUWp?usp=sharing).
 
 ![ ](overview.png)
-Fig. 1. The overall architecture of the proposed WITT scheme for wireless image transmission
+Fig. 1. The overall architecture of the proposed WITT scheme for wireless image transmission.
 
 ## Experimental results
 We show the examples of visual comparison under AWGN channel at SNR = 10dB. More experimental results show in [results](./results).
@@ -30,7 +30,7 @@ WITT supports python 3.8+ and PyTorch 1.9+
 * cbr = C/(2^(2i)*3*2), i denotes the downsample number. For CIFAR10, i=2; for HR_image, i=4.
 * WITT_W/O model is the WITT model without Channel ModNet module which is trained on a fixed channel state (SNR).
 * 'multiple-snr' decides use either fixed or random SNR to train the model. For WITT_W/O model, 'multiple-snr' is set as a fixed SNR. For WITT model, 'muliple-snr' can be set as both fixed or random SNR.
-* For high-resolution images, we can firstly train the WITT_W/O model. Then, the WITT_W/O model is used as a pre-training model to train the whole WITT model.
+* for high-resolution images, we can firstly train the WITT_W/O model. Then, the WITT_W/O model is used as a pre-training model to train the whole WITT model.
 ```
 python train.py --training --trainset {CIFAR10/DIV2K} --testset {CIFAR10/kodak/CLIC21} -- distortion-metric {MSE/MS-SSIM} --model {'WITT'/'WITT_W/O'} --channel-type {awgn/rayleigh} --C {bottleneck dimension} --multiple-snr {random or fixed snr}
 ```
