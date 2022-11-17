@@ -270,8 +270,8 @@ def test():
         for t in metrics:
             t.clear()
 
-    print("SNR: {}" .format(results_psnr.tolist()))
-    print("CBR: {}".format(results_msssim.tolist()))
+    print("SNR: {}" .format(results_snr.tolist()))
+    print("CBR: {}".format(results_cbr.tolist()))
     print("PSNR: {}" .format(results_psnr.tolist()))
     print("MS-SSIM: {}".format(results_msssim.tolist()))
     print("Finish Test!")
