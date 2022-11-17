@@ -3,28 +3,36 @@ from net.network import WITT
 from data.datasets import get_loader
 from utils import *
 torch.backends.cudnn.benchmark = True
-os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 import torch
 from datetime import datetime
 import torch.nn as nn
 import argparse
 from loss.distortion import *
+import time
 
 parser = argparse.ArgumentParser(description='WITT')
-parser.add_argument('--training', type=str, default='True',
+parser.add_argument('--training', action='store_true',
                     help='training or testing')
-parser.add_argument('--trainset', type=str, default='HR_image',
+parser.add_argument('--trainset', type=str, default='CIFAR10',
+                    choices=['CIFAR10', 'DIV2K'],
                     help='train dataset name')
 parser.add_argument('--testset', type=str, default='kodak',
-                    help='test dataset name')
-parser.add_argument('--distortion_metric', type=str, default='MSE',
+                    choices=['kodak', 'CLIC21'],
+                    help='specify the testset for HR models')
+parser.add_argument('--distortion-metric', type=str, default='MSE',
+                    choices=['MSE', 'MS-SSIM'],
                     help='evaluation metrics')
-parser.add_argument('--pretrain', type=str, default='False',
-                    help='training pretrain model')
-parser.add_argument('--channel_type', type=str, default='awgn',
-                    help='channel type')
+parser.add_argument('--model', type=str, default='WITT',
+                    choices=['WITT', 'WITT_W/O'],
+                    help='WITT model or WITT without channel ModNet')
+parser.add_argument('--channel-type', type=str, default='awgn',
+                    choices=['awgn', 'rayleigh'],
+                    help='wireless channel model, awgn or rayleigh')
 parser.add_argument('--C', type=int, default=96,
-                    help='output channel number')
+                    help='bottleneck dimension')
+parser.add_argument('--multiple-snr', type=int, default=[1, 4, 7, 10, 13],
+                    help='random or fix snr')
 args = parser.parse_args()
 
 class config():
@@ -47,7 +55,6 @@ class config():
     normalize = False
     learning_rate = 0.0001
     tot_epoch = 10000000
-    multiple_snr = [1, 4, 7, 10, 13]
 
     if args.trainset == 'CIFAR10':
         save_model_freq = 5
@@ -68,12 +75,19 @@ class config():
             window_size=2, mlp_ratio=4., qkv_bias=True, qk_scale=None,
             norm_layer=nn.LayerNorm, patch_norm=True,
         )
-    elif args.trainset == 'HR_image':
+    elif args.trainset == 'DIV2K':
         save_model_freq = 100
         image_dims = (3, 256, 256)
-        train_data_dir = "/media/Dataset/HR_Image_dataset/"
+        # train_data_dir = ["/media/Dataset/HR_Image_dataset/"]
+        base_path = "/media/Dataset/HR_Image_dataset/"
+        train_data_dir = [base_path + '/clic2020/**',
+                          base_path + '/clic2021/train',
+                          base_path + '/clic2021/valid',
+                          base_path + '/clic2022/val',
+                          base_path + '/DIV2K_train_HR',
+                          base_path + '/DIV2K_valid_HR']
         if args.testset == 'kodak':
-            test_data_dir = ["/media/Dataset/kodak/"]
+            test_data_dir = ["/media/Dataset/kodak_test/"]
         elif args.testset == 'CLIC21':
             test_data_dir = ["/media/Dataset/CLIC21/"]
         batch_size = 16
@@ -195,6 +209,8 @@ def test():
     net.eval()
     elapsed, psnrs, msssims, snrs, cbrs = [AverageMeter() for _ in range(5)]
     metrics = [elapsed, psnrs, msssims, snrs, cbrs]
+    results_snr = np.zeros(len(config.multiple_snr))
+    results_cbr = np.zeros(len(config.multiple_snr))
     results_psnr = np.zeros(len(config.multiple_snr))
     results_msssim = np.zeros(len(config.multiple_snr))
     for i, SNR in enumerate(config.multiple_snr):
@@ -251,11 +267,15 @@ def test():
                         f'Lr {cur_lr}',
                     ]))
                     logger.info(log)
+        results_snr[i] = snrs.avg
+        results_cbr[i] = cbrs.avg
         results_psnr[i] = psnrs.avg
         results_msssim[i] = msssims.avg
         for t in metrics:
             t.clear()
 
+    print("SNR: {}" .format(results_psnr.tolist()))
+    print("CBR: {}".format(results_msssim.tolist()))
     print("PSNR: {}" .format(results_psnr.tolist()))
     print("MS-SSIM: {}".format(results_msssim.tolist()))
     print("Finish Test!")
@@ -266,7 +286,7 @@ if __name__ == '__main__':
     logger.info(config.__dict__)
     torch.manual_seed(seed=config.seed)
     net = WITT(args, config)
-    model_path = "./model/rayleigh/rayleigh_CIFAR10_snr3_psnr_C8.model"
+    model_path = "/media/D/yangke/TransJSCC/checkpoints/SNR-PSNR/pretrained_AWGN_HRimage_snr10_psnr_C.model"
     load_weights(model_path)
     net = net.cuda()
     model_params = [{'params': net.parameters(), 'lr': 0.0001}]
@@ -275,7 +295,7 @@ if __name__ == '__main__':
     optimizer = optim.Adam(model_params, lr=cur_lr)
     global_step = 0
     steps_epoch = global_step // train_loader.__len__()
-    if args.training == 'True':
+    if args.training:
         for epoch in range(steps_epoch, config.tot_epoch):
             train_one_epoch(args)
             if (epoch + 1) % config.save_model_freq == 0:
