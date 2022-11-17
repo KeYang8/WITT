@@ -65,7 +65,7 @@ python train.py --trainset {CIFAR10/DIV2K} --testset {CIFAR10/kodak/CLIC21} -- d
 
 ```
 e.g.
-python train.py --trainset DIV2K --testset kodak -- distortion_metric MSE --model WITT --channel_type awgn --C 96 -- multiple-snr 1,4,7,10,13]
+python train.py --trainset DIV2K --testset kodak -- distortion_metric MSE --model WITT --channel_type awgn --C 96 -- multiple-snr 1,4,7,10,13
 ```
 
 You can apply our method on your own images.
