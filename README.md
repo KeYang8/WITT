@@ -1,26 +1,22 @@
 # WITT: A Wireless Image Transmission Transformer For Semantic Communication
 
-This repo holds the code for the paper:
-WITT: A Wireless Image Transmission Transformer For Semantic Communications
-
-# Proposed model
+Pytorch implementation of the paper "WITT: A Wireless Image Transmission Transformer For Semantic Communications".
 
 ## Introduction
 In this paper, we aim to redesign the vision Transformer (ViT) as a new backbone to realize semantic image transmission, termed wireless image transmission transformer (WITT). Previous works build upon convolutional neural networks (CNNs), which are inefficient in capturing global dependencies, resulting in degraded end-to-end transmission performance especially for high-resolution images. To tackle this, the proposed WITT employs Swin Transformers as a more capable backbone to extract long-range information. Different from ViTs in image classification tasks, WITT is highly optimized for image transmission while considering the effect of the wireless channel. Specifically, we propose a spatial modulation module to scale the latent representations according to channel state information, which enhances the ability of a single model to deal with various channel conditions. As a result, extensive experiments verify that our WITT attains better performance for different image resolutions, distortion metrics, and channel conditions. All pretrain models can be found in [baidu netdisk](https://pan.baidu.com/s/13_Lb8wFVio9PFU4jiySrhA (password:hxzo)) or [google drive](https://drive.google.com/drive/folders/1YdnShbfIT03p_e30vjkV2wPKYOQPmUWp?usp=share_link).
 
 ![ ](overview.png)
-Fig. 1. The overall architecture of the proposed WITT scheme for wireless image transmission.
+>  The overall architecture of the proposed WITT scheme for wireless image transmission.
 
 ## Experimental results
-We show the examples of visual comparison under AWGN channel at SNR = 10dB. More experimental results show in [results](./results).
 
 * we employ the BPG codec for compression combined with 5G LDPC codes for channel coding (marked as “BPG + LDPC”). Here, we considered 5G LDPC codes with a block length of 6144 bits for different coding rates and quadrature amplitude modulations (QAM). 
 * the ideal capacity-achieving channel code is also considered during evaluation (marked as “BPG + Capacity”).
-
+* We show the examples of visual comparison under AWGN channel at SNR = 10dB. More experimental results show in [results](./results).
 ![ ](./results/visual_comparison_result.png)
 
 # Installation
-WITT supports python 3.8+ and PyTorch 1.9+
+We implement WITT under python 3.8 and PyTorch 1.9. 
 
 
 # Usage
