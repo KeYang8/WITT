@@ -171,7 +171,7 @@ def train_one_epoch(args):
             if mse.item() > 0:
                 psnr = 10 * (torch.log(255. * 255. / mse) / np.log(10))
                 psnrs.update(psnr.item())
-                msssim = 1 - CalcuSSIM(input, recon_image.clamp(0., 1.)).mean().item()
+                msssim = 1 - loss_G
                 msssims.update(msssim)
 
             else:
