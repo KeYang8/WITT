@@ -1,4 +1,4 @@
-# WITT: A Wireless Image Transmission Transformer For Semantic Communication
+# WITT: A Wireless Image Transmission Transformer For Semantic Communication[paper](https://arxiv.org/abs/2211.00937)
 
 Pytorch implementation of the paper "WITT: A Wireless Image Transmission Transformer For Semantic Communications".
 
