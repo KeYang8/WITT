@@ -53,7 +53,7 @@ python train.py --training --trainset DIV2K --testset kodak -- distortion_metric
 
 
 ## Test
-All pretrain models can be found in [Baidu netdisk](https://pan.baidu.com/s/13_Lb8wFVio9PFU4jiySrhA (password:hxzo))(password:hxzo) or [Google drive](https://drive.google.com/drive/folders/1YdnShbfIT03p_e30vjkV2wPKYOQPmUWp?usp=share_link).
+All pretrain models can be found in [Baidu netdisk](https://pan.baidu.com/s/13_Lb8wFVio9PFU4jiySrhA (password:hxzo))(password:hxzo) or [Google drive](https://drive.google.com/drive/folders/1xry4pm8CIW4AVpU8t6gAGKFnsnWjApk9?usp=share_link).
 
 ```
 python train.py --trainset {CIFAR10/DIV2K} --testset {CIFAR10/kodak/CLIC21} -- distortion-metric {MSE/MS-SSIM} --model {'WITT'/'WITT_W/O'} --channel-type {awgn/rayleigh} --C {bottleneck dimension} --multiple-snr {random or fixed snr}
