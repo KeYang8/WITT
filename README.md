@@ -83,13 +83,13 @@ python train.py --trainset DIV2K --testset kodak -- distortion_metric MSE --mode
 
 If you find this work useful for your research, please cite:
 
-@inproceedings{yang2023witt, \\
-  title={{WITT}: A wireless image transmission transformer for semantic communications}, \\
-  author={Yang, Ke and Wang, Sixian and Dai, Jincheng and Tan, Kailin and Niu, Kai and Zhang, Ping}, \\
-  booktitle={ICASSP 2023-2023 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)}, \\
-  pages={1--5}, \\
-  year={2023}, \\
-  organization={IEEE} \\
+@inproceedings{yang2023witt,   
+  title={{WITT}: A wireless image transmission transformer for semantic communications},   
+  author={Yang, Ke and Wang, Sixian and Dai, Jincheng and Tan, Kailin and Niu, Kai and Zhang, Ping},   
+  booktitle={ICASSP 2023-2023 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},   
+  pages={1--5},   
+  year={2023},   
+  organization={IEEE}   
 }
 
 # Acknowledgement
