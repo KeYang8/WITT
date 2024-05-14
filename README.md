@@ -28,7 +28,7 @@ We implement WITT under python 3.8 and PyTorch 1.9.
 * 'multiple-snr' decides use either fixed or random SNR to train the model. For WITT_W/O model, 'multiple-snr' is set as a fixed SNR. For WITT model, 'muliple-snr' can be set as both fixed or random SNR.
 * for high-resolution images, we can firstly train the WITT_W/O model. Then, the WITT_W/O model is used as a pre-training model to train the whole WITT model.
 ```
-python train.py --training --trainset {CIFAR10/DIV2K} --testset {CIFAR10/kodak/CLIC21} -- distortion-metric {MSE/MS-SSIM} --model {'WITT'/'WITT_W/O'} --channel-type {awgn/rayleigh} --C {bottleneck dimension} --multiple-snr {random or fixed snr}
+python train.py --training --trainset {CIFAR10/DIV2K} --testset {CIFAR10/kodak/CLIC21} --distortion-metric {MSE/MS-SSIM} --model {'WITT'/'WITT_W/O'} --channel-type {awgn/rayleigh} --C {bottleneck dimension} --multiple-snr {random or fixed snr}
 ```
 
 ### For WITT model 
@@ -37,7 +37,7 @@ python train.py --training --trainset {CIFAR10/DIV2K} --testset {CIFAR10/kodak/C
 
 ```
 e.g.
-python train.py --training --trainset DIV2K --testset kodak -- distortion-metric MSE --model WITT --channel-type awgn --C 96 -- multiple-snr 1,4,7,10,13
+python train.py --training --trainset DIV2K --testset kodak --distortion-metric MSE --model WITT --channel-type awgn --C 96 --multiple-snr 1,4,7,10,13
 ```
 
 You can apply our method on your own images.
@@ -56,7 +56,7 @@ python train.py --training --trainset DIV2K --testset kodak --distortion-metric 
 All pretrain models can be found in [Baidu netdisk](https://pan.baidu.com/s/13_Lb8wFVio9PFU4jiySrhA (password:hxzo))(password:hxzo) or [Google drive](https://drive.google.com/drive/folders/1xry4pm8CIW4AVpU8t6gAGKFnsnWjApk9?usp=share_link).
 
 ```
-python train.py --trainset {CIFAR10/DIV2K} --testset {CIFAR10/kodak/CLIC21} -- distortion-metric {MSE/MS-SSIM} --model {'WITT'/'WITT_W/O'} --channel-type {awgn/rayleigh} --C {bottleneck dimension} --multiple-snr {random or fixed snr}
+python train.py --trainset {CIFAR10/DIV2K} --testset {CIFAR10/kodak/CLIC21} --distortion-metric {MSE/MS-SSIM} --model {'WITT'/'WITT_W/O'} --channel-type {awgn/rayleigh} --C {bottleneck dimension} --multiple-snr {random or fixed snr}
 ```
 
 ### For WITT model 
