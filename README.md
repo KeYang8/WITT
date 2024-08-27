@@ -4,7 +4,7 @@ Pytorch implementation of the [paper](https://arxiv.org/abs/2211.00937) "WITT: A
 
 ## Update
  
-* More versatile Model which can adapt to diverse channel conditions and transmission rates within a single model:
+More versatile Model which can adapt to diverse channel conditions and transmission rates within a single model:
 * paper link: "[SwinJSCC: Taming Swin Transformer for Deep Joint Source-Channel Coding](https://arxiv.org/abs/2308.09361)"
 * repo link: "[https://github.com/semcomm/SwinJSCC].(https://github.com/semcomm/SwinJSCC)"
 
